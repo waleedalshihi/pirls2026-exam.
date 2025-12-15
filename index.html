@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>الاختبار التجريبي لقياس التقدم في مهارة القراءة PIRLS2026</title>
+  <style>
+    :root{
+      --primary:#005a9e; /* MS blue */
+      --accent:#107c10;  /* MS green */
+      --danger:#c50f1f;  /* MS red */
+      --bg:#f7f7f7;
+      --text:#222;
+    }
+    html,body{font-family:"Tahoma", Arial, sans-serif; background:var(--bg); color:var(--text); margin:0;}
+    .page{max-width:1000px; margin:0 auto; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.1);}    
+    header{display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:4px solid var(--primary);}
+    header .right{ text-align:right;}
+    header .right h1{font-size:18px; margin:0;}
+    header .right h2{font-size:15px; margin:4px 0 0; color:#555;}
+    header .left{display:flex; gap:12px; align-items:center;}
+    header img.logo{height:64px; width:auto; object-fit:contain;}
+    .title{padding:18px 20px;}
+    .title h3{margin:0; font-size:22px; color:var(--primary);}
+
+    .student-info{display:grid; grid-template-columns: 1fr 1fr; gap:12px; padding:10px 20px 20px;}
+    .student-info label{font-weight:bold;}
+    .student-info input{padding:10px; border:1px solid #ccc; border-radius:6px; width:100%;}
+
+    .timer{background:#fff3cd; color:#8a6d3b; border:1px solid #ffeeba; padding:10px 16px; margin:0 20px 20px; border-radius:6px; display:flex; justify-content:space-between; align-items:center;}
+    .timer .clock{font-weight:bold; font-size:18px;}
+
+    .texts{padding:0 20px 10px;}
+    .texts h4{margin:10px 0;}
+    .texts .grid{display:grid; grid-template-columns: 1fr; gap:14px;}
+    .texts img{width:100%; height:auto; border:1px solid #ddd; border-radius:6px;}
+
+    .section{padding:0 20px 24px;}
+    .section h4{margin:16px 0 8px; padding-bottom:6px; border-bottom:2px solid #eee;}
+
+    .question{background:#fafafa; border:1px solid #e5e5e5; border-radius:8px; padding:12px; margin:10px 0;}
+    .question h5{margin:0 0 8px;}
+    .options{display:grid; gap:8px;}
+    .options label{cursor:pointer;}
+
+    .fillin input{width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;}
+
+    /* Drag & Drop */
+    .drag-grid{display:grid; grid-template-columns: 1fr 1fr; gap:18px;}
+    .draggable-list, .dropzones{background:#f0f6ff; border:1px dashed var(--primary); border-radius:8px; padding:10px; min-height:140px;}
+    .chip{display:inline-block; padding:6px 10px; margin:6px; background:#e8eefc; color:#09357b; border-radius:20px; border:1px solid #cdd9f7; cursor:grab;}
+    .drop{background:#fff; border:1px solid #cdd9f7; min-height:44px; border-radius:8px; padding:6px; margin:8px 0;}
+    .drop label{display:block; font-weight:bold; margin-bottom:4px;}
+
+    .actions{display:flex; gap:12px; padding:20px; border-top:1px solid #eee;}
+    button{padding:10px 16px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;}
+    button.primary{background:var(--primary); color:#fff;}
+    button.secondary{background:#edeff2;}
+    button.danger{background:var(--danger); color:#fff;}
+
+    .result{padding:0 20px 24px;}
+    .hidden{display:none;}
+    .footer-note{padding:0 20px 24px; color:#666; font-size:13px;}
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="right">
+      <h1>المديرية العامة للتربية والتعليم بمحافظة مسندم</h1>
+      <h2>دائرة القياس والتقويم التربوي</h2>
+    </div>
+    <div class="left">
+      <img src="../شعار القياس والتقويم التربوي.jpg" alt="شعار القياس والتقويم التربوي" class="logo"/>
+      <img src="../شعار رؤية عمان.png" alt="شعار رؤية عمان 2040" class="logo"/>
+    </div>
+  </header>
+
+  <div class="title">
+    <h3>الاختبار التجريبي لقياس التقدم في مهارة القراءة PIRLS2026</h3>
+  </div>
+
+  <section class="student-info">
+    <div>
+      <label for="school">اسم المدرسة</label>
+      <input id="school" type="text" placeholder="اكتب اسم المدرسة" />
+    </div>
+    <div>
+      <label for="student">اسم الطالب/ة</label>
+      <input id="student" type="text" placeholder="اكتب اسمك الثلاثي" />
+    </div>
+  </section>
+
+  <div class="timer">
+    <div>زمن الإجابة: 40 دقيقة</div>
+    <div class="clock" id="clock">40:00</div>
+  </div>
+
+  <section class="texts">
+    <h4>نصوص القراءة</h4>
+    <div class="grid">
+      <img src="../t1.png" alt="النص 1" />
+      <img src="../t2.png" alt="النص 2" />
+      <img src="../t3.png" alt="النص 3" />
+    </div>
+  </section>
+
+  <section class="section">
+    <h4>أولاً: أسئلة اختر من متعدد (5 أسئلة)</h4>
+
+    <div class="question" data-type="mc" data-key="q1">
+      <h5>1) أين تقع القارة القطبية المذكورة في النصوص؟</h5>
+      <div class="options">
+        <label><input type="radio" name="q1" value="خطأ"> في شمال الكرة الأرضية</label>
+        <label><input type="radio" name="q1" value="صحيح"> في جنوب الكرة الأرضية</label>
+        <label><input type="radio" name="q1" value="خطأ"> في الشرق</label>
+        <label><input type="radio" name="q1" value="خطأ"> في الغرب</label>
+      </div>
+    </div>
+
+    <div class="question" data-type="mc" data-key="q2">
+      <h5>2) ما سماكة طبقة الجليد في القارة القطبية تقريبًا كما ورد؟</h5>
+      <div class="options">
+        <label><input type="radio" name="q2" value="خطأ"> 200 متر</label>
+        <label><input type="radio" name="q2" value="خطأ"> 800 متر</label>
+        <label><input type="radio" name="q2" value="صحيح"> 1500 متر أو أكثر</label>
+        <label><input type="radio" name="q2" value="خطأ"> 50 مترًا</label>
+      </div>
+    </div>
+
+    <div class="question" data-type="mc" data-key="q3">
+      <h5>3) تُوصف الرياح في القارة القطبية بأنها:</h5>
+      <div class="options">
+        <label><input type="radio" name="q3" value="صحيح"> أعنف الرياح على الإطلاق</label>
+        <label><input type="radio" name="q3" value="خطأ"> رياح ضعيفة</label>
+        <label><input type="radio" name="q3" value="خطأ"> رياح رطبة دافئة</label>
+        <label><input type="radio" name="q3" value="خطأ"> رياح موسمية</label>
+      </div>
+    </div>
+
+    <div class="question" data-type="mc" data-key="q4">
+      <h5>4) لماذا تُعد القارة القطبية من أكبر الصحارى في العالم؟</h5>
+      <div class="options">
+        <label><input type="radio" name="q4" value="صحيح"> بسبب قلّة الهطول والجفاف الشديد</label>
+        <label><input type="radio" name="q4" value="خطأ"> لأنها حارة جدًا</label>
+        <label><input type="radio" name="q4" value="خطأ"> لأنها مليئة بالغابات</label>
+        <label><input type="radio" name="q4" value="خطأ"> بسبب كثرة الأمطار</label>
+      </div>
+    </div>
+
+    <div class="question" data-type="mc" data-key="q5">
+      <h5>5) أيّ الحيوانات يظهر في النصوص على أنه يعيش في القارة القطبية؟</h5>
+      <div class="options">
+        <label><input type="radio" name="q5" value="صحيح"> البطريق الإمبراطور</label>
+        <label><input type="radio" name="q5" value="خطأ"> الدب البني</label>
+        <label><input type="radio" name="q5" value="خطأ"> الثعلب الصحراوي</label>
+        <label><input type="radio" name="q5" value="خطأ"> الزرافة</label>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="section">
+    <h4>ثانيًا: أسئلة أكمل (5 أسئلة)</h4>
+
+    <div class="question fillin" data-type="fill" data-key="f1" data-answers='["عشر","عُشر","عشرُ"]'>
+      <h5>6) تكمل: تغطي القارة القطبية حوالي ____ من مساحة الأرض.</h5>
+      <input type="text" placeholder="اكتب الكلمة أو الرقم" />
+    </div>
+
+    <div class="question fillin" data-type="fill" data-key="f2" data-answers='["1500","1500 متر","١٥٠٠"]'>
+      <h5>7) تكمل: تبلغ سماكة الجليد في القارة حوالي ____ متر.</h5>
+      <input type="text" placeholder="رقم" />
+    </div>
+
+    <div class="question fillin" data-type="fill" data-key="f3" data-answers='["جنوب","الجنوب"]'>
+      <h5>8) تكمل: تقع القارة القطبية في ____ الكرة الأرضية.</h5>
+      <input type="text" placeholder="كلمة واحدة" />
+    </div>
+
+    <div class="question fillin" data-type="fill" data-key="f4" data-answers='["الأمطار","الهطول","هطول الأمطار"]'>
+      <h5>9) تكمل: تُعد القارة صحراء بسبب قلّة ____.</h5>
+      <input type="text" placeholder="كلمة" />
+    </div>
+
+    <div class="question fillin" data-type="fill" data-key="f5" data-answers='["جمال","جamal","jamal"]'>
+      <h5>10) في رسالة سارة، كانت تكتب إلى ابن أخيها ____.</h5>
+      <input type="text" placeholder="اسم" />
+    </div>
+
+  </section>
+
+  <section class="section">
+    <h4>ثالثًا: سحب وإفلات (سؤالان)</h4>
+
+    <!-- Drag & Drop 1: مطابقة معلومات عامة -->
+    <div class="question" data-type="drag" data-key="d1">
+      <h5>11) اسحب البطاقات لمطابقة الحقائق مع العبارات الصحيحة:</h5>
+      <div class="drag-grid">
+        <div class="draggable-list" id="drag-src-1">
+          <div class="chip" draggable="true" data-id="عشر">عشر مساحة الأرض</div>
+          <div class="chip" draggable="true" data-id="جنوب">تقع في الجنوب</div>
+          <div class="chip" draggable="true" data-id="1500">سماكة الجليد 1500م+</div>
+        </div>
+        <div class="dropzones">
+          <div class="drop" data-accept="جنوب"><label>الموقع</label></div>
+          <div class="drop" data-accept="عشر"><label>المساحة بالنسبة للأرض</label></div>
+          <div class="drop" data-accept="1500"><label>السماكة</label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drag & Drop 2: صيف/شتاء -->
+    <div class="question" data-type="drag" data-key="d2">
+      <h5>12) اسحب البطاقات لمطابقة الفصل بالوصف:</h5>
+      <div class="drag-grid">
+        <div class="draggable-list" id="drag-src-2">
+          <div class="chip" draggable="true" data-id="الصيف">الصيف: نهار طويل وقد لا تغيب الشمس</div>
+          <div class="chip" draggable="true" data-id="الشتاء">الشتاء: درجات حرارة منخفضة جدًا وليالٍ طويلة</div>
+        </div>
+        <div class="dropzones">
+          <div class="drop" data-accept="الصيف"><label>فصل ذو نهار طويل</label></div>
+          <div class="drop" data-accept="الشتاء"><label>فصل شديد البرودة</label></div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="actions">
+    <button class="secondary" id="previewBtn">معاينة الإجابات</button>
+    <button class="primary" id="submitBtn">إنهاء وإرسال</button>
+    <button class="danger" id="resetBtn">إعادة ضبط</button>
+  </div>
+
+  <section class="result hidden" id="result">
+    <h4>النتيجة</h4>
+    <p id="scoreText"></p>
+    <p>يمكن تنزيل ملف النتائج بصيغة CSV لحفظه أو رفعه إلى لوحة التحليل.</p>
+    <div class="actions">
+      <button id="downloadCSV" class="primary">تنزيل النتائج (CSV)</button>
+      <button id="mailtoLink" class="secondary">فتح البريد لإرسال الرابط</button>
+    </div>
+  </section>
+
+  <p class="footer-note">ملاحظة: عند النشر على SharePoint أو أي استضافة داخلية، يمكن ربط الإرسال تلقائيًا بجهة خارجية (مثل Power Automate) عبر العنوان الموجود في إعدادات السكربت أدناه.</p>
+</div>
+
+<script>
+  // ====== إعداد المؤقت 40 دقيقة ======
+  let totalSeconds = 40 * 60; // 40 minutes
+  let timerInterval = null;
+  const clockEl = document.getElementById('clock');
+  function startTimer(){
+    if(timerInterval) return;
+    timerInterval = setInterval(()=>{
+      totalSeconds--;
+      if(totalSeconds <= 0){
+        clearInterval(timerInterval);
+        totalSeconds = 0;
+        clockEl.textContent = 'انتهى الوقت';
+        document.getElementById('submitBtn').click();
+      }else{
+        const m = Math.floor(totalSeconds/60).toString().padStart(2,'0');
+        const s = (totalSeconds%60).toString().padStart(2,'0');
+        clockEl.textContent = `${m}:${s}`;
+      }
+    }, 1000);
+  }
+  // بدء المؤقت عند أول تفاعل
+  ['school','student'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', startTimer);
+  });
+
+  // ====== تجميع الإجابات واحتساب الدرجات ======
+  function collectAnswers(){
+    const data = { school: document.getElementById('school').value.trim(), student: document.getElementById('student').value.trim(), timestamp: new Date().toISOString() };
+    let score = 0;
+    let total = 12;
+
+    // MCQs
+    document.querySelectorAll('.question[data-type="mc"]').forEach(q => {
+      const key = q.dataset.key;
+      const sel = q.querySelector('input[type="radio"]:checked');
+      const val = sel ? sel.value : '';
+      data[key] = val;
+      if(val === 'صحيح') score++;
+    });
+
+    // Fill-in
+    document.querySelectorAll('.question[data-type="fill"]').forEach(q => {
+      const key = q.dataset.key;
+      const input = q.querySelector('input');
+      const val = (input.value || '').trim();
+      data[key] = val;
+      const answers = JSON.parse(q.dataset.answers);
+      const normalized = val.replace(/[\u064B-\u0652]/g,'').replace(/[\s\u00A0]+/g,' ').toLowerCase();
+      // normalize Arabic forms
+      const ok = answers.some(a => a.replace(/[\u064B-\u0652]/g,'').replace(/[\s\u00A0]+/g,' ').toLowerCase() === normalized);
+      if(ok) score++;
+    });
+
+    // Drag & Drop
+    document.querySelectorAll('.question[data-type="drag"]').forEach(q => {
+      const key = q.dataset.key;
+      let localScore = 0; let needed = 0;
+      q.querySelectorAll('.drop').forEach(drop => {
+        needed++;
+        const placed = drop.querySelector('.chip');
+        const accept = drop.dataset.accept;
+        const val = placed ? placed.dataset.id : '';
+        data[`${key}_${accept}`] = val;
+        if(val === accept) localScore++;
+      });
+      score += localScore; // نقطة لكل مطابقة صحيحة
+    });
+
+    data['score'] = score;
+    data['total'] = total;
+    data['time_spent_sec'] = (40*60 - totalSeconds);
+
+    return data;
+  }
+
+  function preview(){
+    const d = collectAnswers();
+    alert(`معاينة:\nالاسم: ${d.student}\nالمدرسة: ${d.school}\nالدرجة: ${d.score} / ${d.total}`);
+  }
+
+  function toCSV(obj){
+    const headers = Object.keys(obj);
+    const values = headers.map(k => String(obj[k]).replace(/\n/g,' ').replace(/,/g,'؛'));
+    return headers.join(',') + "\n" + values.join(',');
+  }
+
+  // ====== إعداد إرسال النتائج ======
+  const RESULTS_ENDPOINT = ''; // ضع هنا عنوان خدمة استقبال النتائج (Power Automate/SharePoint/Google Apps Script)
+
+  async function sendResults(payload){
+    if(RESULTS_ENDPOINT){
+      try{
+        const res = await fetch(RESULTS_ENDPOINT, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        return true;
+      }catch(e){
+        console.warn('تعذر الإرسال إلى الطرف الخارجي، سيتم توفير تنزيل CSV بدلاً من ذلك.', e);
+        return false;
+      }
+    }
+    return false;
+  }
+
+  function showResultPanel(payload){
+    document.getElementById('result').classList.remove('hidden');
+    document.getElementById('scoreText').textContent = `الدرجة: ${payload.score} من ${payload.total} — الزمن المستغرق: ${(payload.time_spent_sec/60).toFixed(1)} دقيقة`;
+  }
+
+  // ====== Drag & Drop behavior ======
+  function enableDragDrop(){
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', chip.dataset.id);
+        e.dataTransfer.setData('text/html', chip.outerHTML);
+        chip.classList.add('dragging');
+      });
+      chip.addEventListener('dragend', e => chip.classList.remove('dragging'));
+    });
+
+    document.querySelectorAll('.drop').forEach(drop => {
+      drop.addEventListener('dragover', e => e.preventDefault());
+      drop.addEventListener('drop', e => {
+        e.preventDefault();
+        const html = e.dataTransfer.getData('text/html');
+        if(!html) return;
+        drop.innerHTML = drop.querySelector('label').outerHTML + html;
+        const placed = drop.querySelector('.chip');
+        if(placed){ placed.draggable = false; placed.style.cursor='default'; }
+      });
+    });
+  }
+
+  enableDragDrop();
+
+  // ====== أزرار ======
+  document.getElementById('previewBtn').addEventListener('click', preview);
+
+  document.getElementById('submitBtn').addEventListener('click', async () => {
+    const payload = collectAnswers();
+    const ok = await sendResults(payload);
+    showResultPanel(payload);
+    if(!ok){
+      // تفعيل زر التنزيل
+      const csv = toCSV(payload);
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const dl = document.getElementById('downloadCSV');
+      dl.onclick = () => {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `PIRLS2026_${payload.student.replace(/\s+/g,'_')}_${Date.now()}.csv`;
+        a.click();
+      };
+    }
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', () => { window.location.reload(); });
+
+  document.getElementById('mailtoLink').addEventListener('click', () => {
+    const link = location.href;
+    const subject = encodeURIComponent('رابط الاختبار التجريبي PIRLS2026');
+    const body = encodeURIComponent('أرفق لكم رابط الاختبار:\n' + link);
+    window.location.href = `mailto:waleedalshihi@moe.om?subject=${subject}&body=${body}`;
+  });
+</script>
+</body>
+</html>
