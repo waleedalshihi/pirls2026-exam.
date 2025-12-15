@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الاختبار التجريبي لقياس التقدم في مهارة القراءة PIRLS2026</title>
+<style>
+ body{font-family:"Segoe UI",Tahoma,Arial,"Noto Sans Arabic",sans-serif;line-height:1.8;background:#f7f7fb;color:#222;margin:0}
+ .container{max-width:1000px;margin:0 auto;padding:24px}
+ header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+ .org{text-align:right}.org h1{margin:0;font-size:22px}.org h2{margin:4px 0 0 0;font-size:18px;font-weight:600;color:#333}
+ .title{text-align:center}.title h1{margin:4px 0;font-size:26px}.badge{display:inline-block;background:#003566;color:#fff;padding:8px 12px;border-radius:8px;font-size:14px}
+ .card{background:#fff;border:1px solid #e3e6ef;border-radius:12px;padding:18px;margin:14px 0}
+ .card h3{margin-top:0}
+ .inputs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+ label{font-weight:600}
+ select,input[type="text"]{width:100%;padding:10px;border:1px solid #cfd3dd;border-radius:8px;font-size:16px}
+ button{background:#0f6efd;color:#fff;border:none;border-radius:12px;padding:12px 18px;font-size:16px;cursor:pointer}
+ button:disabled{background:#b6c1d2;cursor:not-allowed}
+ .timer{font-size:18px;font-weight:bold;color:#b00020}
+ .reading{font-size:18px}
+ .reading h2{margin:16px 0 8px;font-size:20px}
+ .question{margin:16px 0;padding:12px;border:1px dashed #cfd3dd;border-radius:10px}
+ .question h4{margin:0 0 8px 0}
+ .mc-option{margin:6px 0}
+ .blank{width:260px;padding:6px 8px;font-size:16px;border:1px solid #cfd3dd;border-radius:8px}
+ .drag-items{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+ .drag{background:#e9f1ff;border:1px solid #a9c7ff;padding:6px 10px;border-radius:8px;cursor:grab}
+ .dropzones{display:flex;gap:16px}
+ .dropzone{flex:1;min-height:120px;border:2px dashed #b6c1d2;border-radius:10px;padding:8px}
+ .dropzone h5{margin:0 0 8px 0}
+ .pill{display:inline-block;background:#eef6ff;padding:6px 8px;margin:4px;border-radius:8px}
+ .footer-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+ .result{font-size:18px;font-weight:bold}
+ .muted{color:#666;font-size:14px}
+ .note{background:#fff8e1;border:1px solid #ffe08a;padding:8px 12px;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="container">
+ <header>
+  <div class="org">
+   <h1>المديرية العامة للتربية والتعليم بمحافظة مسندم</h1>
+   <h2>دائرة القياس والتقويم التربوي</h2>
+  </div>
+  <div class="title">
+   <span class="badge">PIRLS 2026</span>
+   <h1>الاختبار التجريبي لقياس التقدم في مهارة القراءة</h1>
+  </div>
+ </header>
+ <div class="card" id="infoCard">
+  <h3>بيانات الطالب</h3>
+  <div class="inputs">
+   <div>
+    <label for="school">اسم المدرسة (قائمة منسدلة برمز المدرسة)</label>
+    <select id="school">
+     <option value="" selected disabled>اختر المدرسة</option>
+     {options_html}
+    </select>
+    <small class="muted">* سيُحفظ رمز المدرسة مع النتائج.</small>
+   </div>
+   <div>
+    <label for="student">اسم الطالب</label>
+    <input type="text" id="student" placeholder="اكتب اسم الطالب"/>
+   </div>
+  </div>
+  <div style="margin-top:12px;display:flex;align-items:center;gap:12px">
+   <button id="startBtn">ابدأ الاختبار</button>
+   <span class="timer">الوقت المتبقي: <span id="timeLeft">40:00</span></span>
+   <span class="muted">* مدة الإجابة: 40 دقيقة (يبدأ العد التنازلي بعد الضغط على "ابدأ الاختبار").</span>
+  </div>
+ </div>
+
+ <div class="card reading" id="readingCard" style="display:none">
+  <h3>نص القراءة</h3>
+  <h2>القارة القطبية: أرض الجليد</h2>
+  <p>تقع القارة القطبية جنوب الكرة الأرضية تمامًا، وتحتل عُشر مساحة الأرض، وتغطيها طبقة ثلجية يبلغ سمكها 1500 متر أو أكثر، ويقع القطب الجنوبي في وسطها. إنها أبرد القارات وأشدها جفافًا وارتفاعًا، ورياحها من أعْتى الرياح. قليل من الناس يعيشون هناك طوال السنة، بينما يمكث العلماء فترات قصيرة في محطات بحث مخصصة لذلك. يغرق فصل الشتاء في ظلام دائم طوال ستة أشهر، ويحدث العكس في فصل الصيف حيث لا ينقطع ضوء النهار طوال ستة أشهر. يمتد فصل الصيف من أكتوبر إلى مارس، والشتاء من أبريل إلى سبتمبر.</p>
+  <h2>رسالة من القارة القطبية</h2>
+  <p>الجمعة 9 ديسمبر<br>عزيزي جمال،<br>إليك الرسالة التي وعدتك بكتابتها من القارة القطبية. تخيّل سعادتي بوجودي أخيرًا هنا أسير على خطى المستكشفين المشهورين. الأمر هنا يختلف تمامًا عن العالم الذي تعودت عليه؛ لا يوجد أي شيء طازج ولا متاجر، وعلينا أن نأكل الكثير من الأغذية المحفوظة أو المجففة. طهي الطعام يستغرق وقتًا أطول؛ نستخدم مواقد غاز صغيرة، أما العلب فلا تحتاج للثلاجة: فقط نتركها في الخارج فتتجمّد. اشتقت إلى التفاح والبرتقال الطازج، وأتمنى لو تبعث لي بعضًا منها.<br>مع كل حبي، سارة.</p>
+  <h2>الطقس في القارة القطبية والبطاريق</h2>
+  <p><strong>الطقس:</strong> القارة القطبية أبرد مما يمكن تصوّره حتى في الصيف، والقطب الجنوبي أشدُّ مناطقها برودة. يبلغ معدّل درجة الحرارة في يناير (منتصف الصيف) -28° مئوية، وقد تصل في الشتاء إلى -80° في القطب الجنوبي. إذا قذفت ماءً مغليًا في الهواء يتجمّد قبل أن يلمس الثلج، ويلجأ العلماء أحيانًا إلى ثلاجات ليحافظوا على عيناتهم دافئة!</p>
+  <p><strong>البطاريق:</strong> تفوق نسبة البطاريق نسبة أي طيور أخرى هناك. لا تطير لكنها تستخدم أجنحتها القصيرة كزعانف للسباحة؛ تتهادى منتصبة على اليابسة أو تقفز قفزات قصيرة. لها ريش كثير متشابك وتحته ريش صوفي وطبقة سميكة من الدهن تحميها من البرد والريح، وللحصول على مزيد من الدفء تحتشد في مجموعات.</p>
+ </div>
+
+ <div class="card" id="questionsCard" style="display:none">
+  <h3>أسئلة الاختبار</h3>
+  <div class="question" data-type="mc" data-id="MC1">
+   <h4>1) أين تقع القارة القطبية؟</h4>
+   <label class="mc-option"><input type="radio" name="MC1" value="A"> شمال الكرة الأرضية</label><br>
+   <label class="mc-option"><input type="radio" name="MC1" value="B"> بالقرب من خط الاستواء</label><br>
+   <label class="mc-option"><input type="radio" name="MC1" value="C"> جنوب الكرة الأرضية تمامًا</label><br>
+   <label class="mc-option"><input type="radio" name="MC1" value="D"> في المحيط الأطلسي</label>
+  </div>
+  <div class="question" data-type="mc" data-id="MC2">
+   <h4>2) يمتد فصل الصيف في القارة القطبية من:</h4>
+   <label class="mc-option"><input type="radio" name="MC2" value="A"> أبريل إلى سبتمبر</label><br>
+   <label class="mc-option"><input type="radio" name="MC2" value="B"> أكتوبر إلى مارس</label><br>
+   <label class="mc-option"><input type="radio" name="MC2" value="C"> يناير إلى يونيو</label><br>
+   <label class="mc-option"><input type="radio" name="MC2" value="D"> مايو إلى نوفمبر</label>
+  </div>
+  <div class="question" data-type="mc" data-id="MC3">
+   <h4>3) لماذا لا تحتاج العلب إلى الثلاجة هناك؟</h4>
+   <label class="mc-option"><input type="radio" name="MC3" value="A"> لأن الطقس حار جدًا</label><br>
+   <label class="mc-option"><input type="radio" name="MC3" value="B"> لأن الهواء جاف</label><br>
+   <label class="mc-option"><input type="radio" name="MC3" value="C"> لأنها تتجمّد إذا تُركت في الخارج</label><br>
+   <label class="mc-option"><input type="radio" name="MC3" value="D"> لأن المحطات بلا كهرباء</label>
+  </div>
+  <div class="question" data-type="mc" data-id="MC4">
+   <h4>4) كم يبلغ معدّل درجة الحرارة في يناير (منتصف الصيف)؟</h4>
+   <label class="mc-option"><input type="radio" name="MC4" value="A"> 28° فوق الصفر</label><br>
+   <label class="mc-option"><input type="radio" name="MC4" value="B"> -28° تحت الصفر</label><br>
+   <label class="mc-option"><input type="radio" name="MC4" value="C"> -80° تحت الصفر</label><br>
+   <label class="mc-option"><input type="radio" name="MC4" value="D"> 0°</label>
+  </div>
+  <div class="question" data-type="mc" data-id="MC5">
+   <h4>5) كيف تحصل البطاريق على مزيد من الدفء؟</h4>
+   <label class="mc-option"><input type="radio" name="MC5" value="A"> بالتحليق لمسافات طويلة</label><br>
+   <label class="mc-option"><input type="radio" name="MC5" value="B"> بالوقوف منفردة</label><br>
+   <label class="mc-option"><input type="radio" name="MC5" value="C"> بالاحتشاد في مجموعات</label><br>
+   <label class="mc-option"><input type="radio" name="MC5" value="D"> بالسباحة في مياه دافئة</label>
+  </div>
+
+  <div class="question" data-type="blank" data-id="BL1">
+   <h4>6) تحتل القارة القطبية حوالي ____ من مساحة الأرض.</h4>
+   <input class="blank" type="text" id="BL1" placeholder="اكتب الكلمة أو الرقم"/>
+  </div>
+  <div class="question" data-type="blank" data-id="BL2">
+   <h4>7) يبلغ سمك الطبقة الثلجية في القارة القطبية نحو ____ متر أو أكثر.</h4>
+   <input class="blank" type="text" id="BL2" placeholder="رقم بالمتر"/>
+  </div>
+  <div class="question" data-type="blank" data-id="BL3">
+   <h4>8) يقع القطب الجنوبي في ____ القارة القطبية.</h4>
+   <input class="blank" type="text" id="BL3" placeholder="كلمة واحدة"/>
+  </div>
+  <div class="question" data-type="blank" data-id="BL4">
+   <h4>9) يستمر ضوء النهار في فصل الصيف لمدة ____ أشهر.</h4>
+   <input class="blank" type="text" id="BL4" placeholder="رقم بالأشهر"/>
+  </div>
+  <div class="question" data-type="blank" data-id="BL5">
+   <h4>10) يستخدم العلماء أحيانًا ثلاجات ليحافظوا على عيناتهم ____.</h4>
+   <input class="blank" type="text" id="BL5" placeholder="كلمة مناسبة"/>
+  </div>
+
+  <div class="question" data-type="drag" data-id="DG1">
+   <h4>11) اسحب الجمل إلى الفئة المناسبة:</h4>
+   <div class="drag-items" id="DG1Items">
+    <span class="drag" draggable="true" data-key="weather">يبلغ معدّل الحرارة في يناير -28°.</span>
+    <span class="drag" draggable="true" data-key="weather">قد تصل الحرارة في الشتاء إلى -80°.</span>
+    <span class="drag" draggable="true" data-key="penguins">البطاريق لا تستطيع الطيران.</span>
+    <span class="drag" draggable="true" data-key="penguins">للبطاريق طبقة سميكة من الدهن.</span>
+    <span class="drag" draggable="true" data-key="weather">يتجمد الماء المغلي قبل أن يلمس الثلج.</span>
+    <span class="drag" draggable="true" data-key="penguins">تحتشد البطاريق في مجموعات لتدفأ.</span>
+   </div>
+   <div class="dropzones">
+    <div class="dropzone" data-accept="weather" id="DZWeather"><h5>الطقس</h5></div>
+    <div class="dropzone" data-accept="penguins" id="DZPenguins"><h5>البطاريق</h5></div>
+   </div>
+  </div>
+
+  <div class="question" data-type="drag" data-id="DG2">
+   <h4>12) صنّف الأشهر في القارة القطبية إلى صيف (أكتوبر–مارس) وشتاء (أبريل–سبتمبر):</h4>
+   <div class="drag-items" id="DG2Items">
+    <span class="drag" draggable="true" data-key="summer">أكتوبر</span>
+    <span class="drag" draggable="true" data-key="summer">نوفمبر</span>
+    <span class="drag" draggable="true" data-key="summer">ديسمبر</span>
+    <span class="drag" draggable="true" data-key="summer">يناير</span>
+    <span class="drag" draggable="true" data-key="summer">فبراير</span>
+    <span class="drag" draggable="true" data-key="summer">مارس</span>
+    <span class="drag" draggable="true" data-key="winter">أبريل</span>
+    <span class="drag" draggable="true" data-key="winter">مايو</span>
+    <span class="drag" draggable="true" data-key="winter">يونيو</span>
+    <span class="drag" draggable="true" data-key="winter">يوليو</span>
+    <span class="drag" draggable="true" data-key="winter">أغسطس</span>
+    <span class="drag" draggable="true" data-key="winter">سبتمبر</span>
+   </div>
+   <div class="dropzones">
+    <div class="dropzone" data-accept="summer" id="DZSummer"><h5>الصيف (أكتوبر–مارس)</h5></div>
+    <div class="dropzone" data-accept="winter" id="DZWinter"><h5>الشتاء (أبريل–سبتمبر)</h5></div>
+   </div>
+  </div>
+
+  <div class="footer-actions">
+   <button id="submitBtn">إنهاء وإرسال الإجابات</button>
+   <button id="downloadBtn" disabled>تنزيل نتائج الطالب (CSV)</button>
+   <span class="result" id="scoreText" style="display:none"></span>
+  </div>
+  <p class="note">ملاحظة: يمكن إعداد إرسال تلقائي للنتائج إلى جهة مركزية عبر ربط هذا الاختبار بمسار تلقائي (Power Automate) في Microsoft 365.</p>
+ </div>
+
+ <div class="card" id="adminCard" style="display:none">
+  <h3>إعدادات الربط (اختياري للمشرف)</h3>
+  <p class="muted">ضع رابط واجهة استقبال النتائج (Webhook) من Power Automate لتجميع نتائج الطلبة في قائمة SharePoint وإرسال تقرير لكل مدرسة تلقائيًا.</p>
+  <div class="inputs" style="grid-template-columns:2fr 1fr">
+   <div>
+    <label for="endpoint">رابط استقبال النتائج (RESULTS_ENDPOINT)</label>
+    <input type="text" id="endpoint" placeholder="https://..."/>
+   </div>
+   <div>
+    <label for="adminEmail">بريد المشرف لتلقي التقرير</label>
+    <input type="text" id="adminEmail" placeholder="example@moe.om"/>
+   </div>
+  </div>
+  <div style="margin-top:12px"><button id="saveAdmin">حفظ الإعدادات</button></div>
+ </div>
+
+ <div class="card">
+  <h3>تعليمات النشر وجمع النتائج (للمشرف)</h3>
+  <ol>
+   <li>ارفع هذا الملف إلى <strong>SharePoint</strong> أو إلى <strong>OneDrive</strong> ثم شاركه كصفحة/رابط للمدارس.</li>
+   <li>لجمع النتائج مركزيًا، أنشئ تدفقًا في <strong>Power Automate</strong> بمشغّل: <em>When an HTTP request is received</em>، ثم خزّن البيانات في <strong>قائمة SharePoint</strong> (حقول: رمز المدرسة، اسم المدرسة، الطالب، الوقت المتبقي، الدرجة، تفصيل الأسئلة).</li>
+   <li>أضف خطوة لإرسال بريد تلقائي إلى المشرف يتضمن رابط تقرير النتائج حسب المدرسة: <strong>waleedalshihi@moe.om</strong>.</li>
+   <li>انسخ رابط المشغّل (HTTP) وضعه في خانة <strong>RESULTS_ENDPOINT</strong> أعلاه، ثم احفظ.</li>
+  </ol>
+ </div>
+</div>
+<script>
+(function(){
+ const startBtn=document.getElementById('startBtn');
+ const submitBtn=document.getElementById('submitBtn');
+ const downloadBtn=document.getElementById('downloadBtn');
+ const timeEl=document.getElementById('timeLeft');
+ const infoCard=document.getElementById('infoCard');
+ const readingCard=document.getElementById('readingCard');
+ const questionsCard=document.getElementById('questionsCard');
+ const adminCard=document.getElementById('adminCard');
+ const scoreText=document.getElementById('scoreText');
+ const endpointInput=document.getElementById('endpoint');
+ const adminEmailInput=document.getElementById('adminEmail');
+ const saveAdminBtn=document.getElementById('saveAdmin');
+
+ const mcAnswers={ MC1:'C', MC2:'B', MC3:'C', MC4:'B', MC5:'C' };
+ const blankAnswers={
+  BL1:['عشر','عُشر','1/10','عشرُ'],
+  BL2:['1500','١٥٠٠'],
+  BL3:['الوسط','وسطها','الوسطِ','المنتصف','منتصفها'],
+  BL4:['6','ستة','٦'],
+  BL5:['دافئة','دافئ','الدفء']
+ };
+
+ let minutes=40,seconds=0,timer=null;
+ let resultsEndpoint=localStorage.getItem('RESULTS_ENDPOINT')||'';
+ let adminEmail=localStorage.getItem('ADMIN_EMAIL')||'';
+ endpointInput.value=resultsEndpoint;
+ adminEmailInput.value=adminEmail||'waleedalshihi@moe.om';
+
+ function formatTime(m,s){return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
+ function startTimer(){timeEl.textContent=formatTime(minutes,seconds);timer=setInterval(function(){if(minutes===0&&seconds===0){clearInterval(timer);autoSubmit();return;}if(seconds===0){minutes--;seconds=59;}else{seconds--;}timeEl.textContent=formatTime(minutes,seconds);},1000);}
+ function autoSubmit(){submitAnswers(true);alert('انتهى الوقت. تم إرسال إجاباتك تلقائيًا.');}
+
+ startBtn.addEventListener('click',function(){
+  var schoolSel=document.getElementById('school');
+  var student=document.getElementById('student').value.trim();
+  if(!schoolSel.value){alert('يرجى اختيار المدرسة من القائمة.');return;}
+  if(!student){alert('يرجى إدخال اسم الطالب.');return;}
+  var schoolCode=schoolSel.value;
+  var schoolName=schoolSel.options[schoolSel.selectedIndex].text;
+  localStorage.setItem('SCHOOL_CODE',schoolCode);
+  localStorage.setItem('SCHOOL_NAME',schoolName);
+  localStorage.setItem('STUDENT_NAME',student);
+  infoCard.style.display='none';
+  readingCard.style.display='block';
+  questionsCard.style.display='block';
+  adminCard.style.display='block';
+  startTimer();
+ });
+
+ saveAdminBtn.addEventListener('click',function(){
+  var ep=endpointInput.value.trim();
+  var mail=adminEmailInput.value.trim();
+  localStorage.setItem('RESULTS_ENDPOINT',ep);
+  localStorage.setItem('ADMIN_EMAIL',mail);
+  alert('تم حفظ إعدادات الربط.');
+ });
+
+ function enableDnD(){
+  document.querySelectorAll('.drag').forEach(function(el){
+   el.addEventListener('dragstart',function(ev){ev.dataTransfer.setData('text/plain',el.textContent);ev.dataTransfer.setData('key',el.getAttribute('data-key'));ev.dataTransfer.effectAllowed='move';});
+  });
+  document.querySelectorAll('.dropzone').forEach(function(zone){
+   zone.addEventListener('dragover',function(ev){ev.preventDefault();});
+   zone.addEventListener('drop',function(ev){ev.preventDefault();var text=ev.dataTransfer.getData('text/plain');var key=ev.dataTransfer.getData('key');var pill=document.createElement('span');pill.className='pill';pill.textContent=text;pill.setAttribute('data-key',key);zone.appendChild(pill);});
+  });
+ }
+ enableDnD();
+
+ function normalize(s){return (s||'').toString().trim().replace(/[ً-ْ]/g,'');}
+
+ function submitAnswers(auto){
+  var schoolCode=localStorage.getItem('SCHOOL_CODE')||document.getElementById('school').value;
+  var sel=document.getElementById('school');
+  var schoolName=localStorage.getItem('SCHOOL_NAME')||((sel.options[sel.selectedIndex]||{}).text||'');
+  var student=localStorage.getItem('STUDENT_NAME')||document.getElementById('student').value.trim();
+
+  var mcCorrect=0, mcDetail={};
+  Object.keys(mcAnswers).forEach(function(id){var selected=document.querySelector('input[name="'+id+'"]:checked');var val=selected?selected.value:null;var ok=val===mcAnswers[id];mcDetail[id]={answer:val, correct:ok};if(ok)mcCorrect++;});
+
+  var blankCorrect=0, blankDetail={};
+  Object.keys(blankAnswers).forEach(function(id){var val=normalize(document.getElementById(id).value);var ok=blankAnswers[id].map(normalize).includes(val);blankDetail[id]={answer:val, correct:ok};if(ok)blankCorrect++;});
+
+  var dg1Correct=0, dg1Total=6, dg1Detail=[];
+  document.querySelectorAll('#DZWeather .pill').forEach(function(p){if(p.getAttribute('data-key')==='weather')dg1Correct++;dg1Detail.push({text:p.textContent, placed:'weather', key:p.getAttribute('data-key')});});
+  document.querySelectorAll('#DZPenguins .pill').forEach(function(p){if(p.getAttribute('data-key')==='penguins')dg1Correct++;dg1Detail.push({text:p.textContent, placed:'penguins', key:p.getAttribute('data-key')});});
+
+  var dg2Correct=0, dg2Total=12, dg2Detail=[];
+  document.querySelectorAll('#DZSummer .pill').forEach(function(p){if(p.getAttribute('data-key')==='summer')dg2Correct++;dg2Detail.push({text:p.textContent, placed:'summer', key:p.getAttribute('data-key')});});
+  document.querySelectorAll('#DZWinter .pill').forEach(function(p){if(p.getAttribute('data-key')==='winter')dg2Correct++;dg2Detail.push({text:p.textContent, placed:'winter', key:p.getAttribute('data-key')});});
+
+  var totalPoints=5+5+dg1Total+dg2Total;
+  var earned=mcCorrect+blankCorrect+dg1Correct+dg2Correct;
+  var percent=Math.round((earned/totalPoints)*100);
+  scoreText.style.display='inline-block';
+  scoreText.textContent='درجة الطالب: '+earned+' / '+totalPoints+' ('+percent+'%)';
+  downloadBtn.disabled=false;
+
+  var payload={
+   timestamp:new Date().toISOString(),
+   school_code:schoolCode,
+   school_name:schoolName,
+   student:student,
+   time_remaining:formatTime(minutes,seconds),
+   mc_correct:mcCorrect, blank_correct:blankCorrect,
+   dg1_correct:dg1Correct, dg1_total:dg1Total,
+   dg2_correct:dg2Correct, dg2_total:dg2Total,
+   total_points:totalPoints, earned:earned, percent:percent,
+   details:{ mc:mcDetail, blanks:blankDetail, dg1:dg1Detail, dg2:dg2Detail }
+  };
+
+  downloadBtn.onclick=function(){
+   var rows=[
+    ['التاريخ', payload.timestamp],
+    ['رمز المدرسة', schoolCode],
+    ['اسم المدرسة', schoolName],
+    ['الطالب', student],
+    ['الوقت المتبقي', payload.time_remaining],
+    ['الدرجة', earned+'/'+totalPoints],
+    ['النسبة', percent+'%'],
+    ['تفصيل اختر من متعدد', JSON.stringify(mcDetail)],
+    ['تفصيل أكمل', JSON.stringify(blankDetail)],
+    ['تفصيل سحب1', JSON.stringify(dg1Detail)],
+    ['تفصيل سحب2', JSON.stringify(dg2Detail)]
+   ];
+   var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'\"')+'"';}).join(',');}).join('
+');
+   var blob=new Blob([csv], {type:'text/csv;charset=utf-8'});
+   var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='نتيجة_'+student.replace(/\s+/g,'_')+'.csv';a.click();
+  };
+
+  var ep=localStorage.getItem('RESULTS_ENDPOINT');
+  if(ep){
+   fetch(ep, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)})
+    .then(function(){console.log('تم إرسال النتائج إلى المشغّل بنجاح');})
+    .catch(function(){console.warn('تعذّر إرسال النتائج؛ تحقق من الرابط أو صلاحيات CORS.');});
+  }
+
+  if(!auto){alert('تم إرسال إجاباتك. يمكنك تنزيل نتيجتك كملف CSV، أو سيجري إرسالها إلى المسار المربوط إن وُجد.');}
+ }
+
+ submitBtn.addEventListener('click', function(){ submitAnswers(false); });
+})();
+</script>
+</body>
+</html>
